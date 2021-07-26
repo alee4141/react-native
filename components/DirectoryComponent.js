@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { CAMPSITES } from '../shared/campsites'
+import { CAMPSITES } from '../shared/campsites';
 
 class Directory extends Component {
 
@@ -9,7 +9,7 @@ class Directory extends Component {
         super(props);
         this.state = {
             campsites: CAMPSITES
-        }
+        };
     }
 
     static navigationOptions = {
@@ -23,11 +23,11 @@ class Directory extends Component {
                 <ListItem
                     title={item.name}
                     subtitle={item.description}
-                    onPress={() => navigate('CampsiteInfo', { campsiteId: item.id})}
+                    onPress={() => navigate('CampsiteInfo', { campsiteId: item.id })}
                     leftAvatar={{ source: require('./images/react-lake.jpg')}}
                 />
-            )
-        }
+            );
+        };
 
         return (
             <FlatList
