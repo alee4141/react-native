@@ -54,7 +54,7 @@ export const fetchCampsites = () => dispatch => {
         .catch(error => dispatch(campsitesFailed(error.message)))
 };
 
-export const campsitesLaoding = () => ({
+export const campsitesLoading = () => ({
     type: ActionTypes.CAMPSITES_LOADING
 });
 
@@ -105,19 +105,19 @@ export const addPromotions = promotions => ({
     payload: promotions
 })
 
-export const fetchPartners = () => {
-
+export const fetchPartners = () => dispatch => {
+    
     dispatch(partnersLoading());
 
     return fetch(baseUrl + 'partners')
         .then(response => {
-            if (response.ok) {
-                return response;
-            } else {
-                const error = new Error(`Error ${response.status}: ${response.statusText}`);
-                error.response = response;
-                throw error;
-            }
+                if (response.ok) {
+                    return response;
+                } else {
+                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                    error.response = response;
+                    throw error;
+                }
             },
             error => {
                 const errMess = new Error(error.message);
@@ -151,4 +151,24 @@ export const postFavorite = campsiteId => dispatch => {
 export const addFavorite = campsiteId => ({
     type: ActionTypes.ADD_FAVORITE,
     payload: campsiteId
+});
+
+export const postComment = (campsiteId, rating, author, text) => dispatch => {
+    const newComment = {
+        campsiteId,
+        rating,
+        author,
+        text
+    }
+
+    newComment.date = new Date().toISOString();
+
+    setTimeout(() => {
+        dispatch(addComment(newComment))
+    }, 2000)
+}
+
+export const addComment = comment => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
 });

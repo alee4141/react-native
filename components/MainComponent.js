@@ -14,6 +14,8 @@ import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
 import Reservation from './ReservationComponent';
+import Favorites from './FavoritesComponent';
+import { steelblue } from 'color-name';
 
 const mapDispatchToProps = {
     fetchCampsites,
@@ -89,6 +91,24 @@ const DirectoryNavigator = createStackNavigator(
         }
     }
 );
+
+const FavoritesNavigator = createStackNavigator(
+    {
+        Favorites: { screen: Favorites}
+    },
+    {
+        defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTintStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon name='heart' type='font-awesome' iconStyle={styles.stackIcon} onPress={() => navigation.toggleDrawer()} />
+        })
+    }
+)
 
 const HomeNavigator = createStackNavigator(
     {
@@ -187,6 +207,18 @@ const MainNavigator = createDrawerNavigator(
                 )
             }
         },
+        Favorites: {
+            screen: FavoritesNavigator,
+            navigationOptions: {
+                drawerLabel: 'My Favorites',
+                drawerIcon: ({tintColor}) => (<Icon
+                        name='heart'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />)
+            }
+        },
         Reservation: {
             screen: ReservationNavigator,
             navigationOptions: {
@@ -238,7 +270,7 @@ const MainNavigator = createDrawerNavigator(
 
 const AppNavigator = createAppContainer(MainNavigator);
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
